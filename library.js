@@ -14,7 +14,7 @@
 		'name': "Saml",
 		'admin': {
 			'route': '/plugins/sso-saml2',
-			'icon': 'fa-saml-square'
+			'icon': 'fa-lock'
 		}
 	});
 
@@ -32,13 +32,14 @@
 	};
 
 	Saml.getStrategy = function(strategies, callback) {
-		if (meta.config['social:twitter:key'] && meta.config['social:twitter:secret']) {
-			passport.use(new passportTwitter({
-				consumerKey: meta.config['social:twitter:key'],
-				consumerSecret: meta.config['social:twitter:secret'],
-				callbackURL: nconf.get('url') + '/auth/twitter/callback'
-			}, function(token, tokenSecret, profile, done) {
-				Saml.login(profile.id, profile.username, profile.photos, function(err, user) {
+		if (meta.config['social:saml:path'] && meta.config['social:saml:entrypoint'] && meta.config['social:saml:privatecert']) {
+			passport.use(new passportSaml({
+				path: meta.config['social:saml:path'], //nconf.get('url') + '/auth/twitter/callback'
+				entryPoint: meta.config['social:saml:entrypoint'],
+				issuer: 'passport-saml',
+				privateCert: fs.readFileSync('./' + meta.config['social:saml:privatecert'], 'utf-8')
+			}, function(profile, done) {
+				findByEmail(profile.email, function(err, user) {
 					if (err) {
 						return done(err);
 					}
@@ -47,9 +48,9 @@
 			}));
 
 			strategies.push({
-				name: 'twitter',
-				url: '/auth/twitter',
-				callbackURL: '/auth/twitter/callback',
+				name: 'saml',
+				url: '/auth/saml',
+				callbackURL: '/auth/saml/callback',
 				icon: constants.admin.icon,
 				scope: ''
 			});
