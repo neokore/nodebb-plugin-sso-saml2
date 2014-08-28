@@ -5,40 +5,40 @@
 		meta = module.parent.require('./meta'),
 		db = module.parent.require('../src/database'),
 		passport = module.parent.require('passport'),
-		passportTwitter = require('passport-twitter').Strategy,
+		passportSaml = require('passport-saml').Strategy,
 		fs = module.parent.require('fs'),
 		path = module.parent.require('path'),
 		nconf = module.parent.require('nconf');
 
 	var constants = Object.freeze({
-		'name': "Twitter",
+		'name': "Saml",
 		'admin': {
-			'route': '/plugins/sso-twitter',
-			'icon': 'fa-twitter-square'
+			'route': '/plugins/sso-saml2',
+			'icon': 'fa-saml-square'
 		}
 	});
 
-	var Twitter = {};
+	var Saml = {};
 
-	Twitter.init = function(app, middleware, controllers, callback) {
+	Saml.init = function(app, middleware, controllers, callback) {
 		function render(req, res, next) {
-			res.render('admin/plugins/sso-twitter', {});
+			res.render('admin/plugins/sso-saml2', {});
 		}
 
-		app.get('/admin/plugins/sso-twitter', middleware.admin.buildHeader, render);
-		app.get('/api/admin/plugins/sso-twitter', render);
+		app.get('/admin/plugins/sso-saml2', middleware.admin.buildHeader, render);
+		app.get('/api/admin/plugins/sso-saml2', render);
 
 		callback();
 	};
 
-	Twitter.getStrategy = function(strategies, callback) {
+	Saml.getStrategy = function(strategies, callback) {
 		if (meta.config['social:twitter:key'] && meta.config['social:twitter:secret']) {
 			passport.use(new passportTwitter({
 				consumerKey: meta.config['social:twitter:key'],
 				consumerSecret: meta.config['social:twitter:secret'],
 				callbackURL: nconf.get('url') + '/auth/twitter/callback'
 			}, function(token, tokenSecret, profile, done) {
-				Twitter.login(profile.id, profile.username, profile.photos, function(err, user) {
+				Saml.login(profile.id, profile.username, profile.photos, function(err, user) {
 					if (err) {
 						return done(err);
 					}
@@ -58,8 +58,8 @@
 		callback(null, strategies);
 	};
 
-	Twitter.login = function(twid, handle, photos, callback) {
-		Twitter.getUidByTwitterId(twid, function(err, uid) {
+	Saml.login = function(twid, handle, photos, callback) {
+		Saml.getUidByTwitterId(twid, function(err, uid) {
 			if(err) {
 				return callback(err);
 			}
@@ -96,7 +96,7 @@
 		});
 	};
 
-	Twitter.getUidByTwitterId = function(twid, callback) {
+	Saml.getUidByTwitterId = function(twid, callback) {
 		db.getObjectField('twid:uid', twid, function(err, uid) {
 			if (err) {
 				return callback(err);
@@ -105,7 +105,7 @@
 		});
 	};
 
-	Twitter.addMenuItem = function(custom_header, callback) {
+	Saml.addMenuItem = function(custom_header, callback) {
 		custom_header.authentication.push({
 			"route": constants.admin.route,
 			"icon": constants.admin.icon,
@@ -115,5 +115,5 @@
 		callback(null, custom_header);
 	};
 
-	module.exports = Twitter;
+	module.exports = Saml;
 }(module));

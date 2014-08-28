@@ -1,8 +1,8 @@
 {
-	"id": "nodebb-plugin-sso-twitter",
-	"name": "NodeBB Twitter SSO",
-	"description": "NodeBB Plugin that allows users to login/register via their Twitter account.",
-	"url": "https://github.com/julianlam/nodebb-plugin-sso-twitter",
+	"id": "nodebb-plugin-sso-saml2",
+	"name": "NodeBB SAML2 SSO",
+	"description": "NodeBB Plugin that allows users to login/register via SAML2 IdP.",
+	"url": "https://github.com/neokore/nodebb-plugin-sso-saml2",
 	"library": "./library.js",
 	"hooks": [
 		{ "hook": "filter:auth.init", "method": "getStrategy" },

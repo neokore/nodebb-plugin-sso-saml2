@@ -1,7 +1,7 @@
-# NodeBB Twitter SSO
+# NodeBB SAML2 SSO
 
-NodeBB Plugin that allows users to login/register via their Twitter account.
+NodeBB Plugin that allows users to login/register via SAML2 IdP.
 
 ## Installation
 
-    npm install nodebb-plugin-sso-twitter
+    npm install nodebb-plugin-sso-saml2

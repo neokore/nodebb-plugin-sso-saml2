@@ -1,31 +1,31 @@
 {
-  "name": "nodebb-plugin-sso-twitter",
-  "version": "0.3.1",
-  "description": "NodeBB Twitter SSO",
+  "name": "nodebb-plugin-sso-saml2",
+  "version": "0.0.1",
+  "description": "NodeBB SAML2 SSO",
   "main": "library.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/julianlam/nodebb-plugin-sso-twitter"
+    "url": "https://github.com/neokore/nodebb-plugin-sso-saml2"
   },
   "keywords": [
     "nodebb",
     "plugin",
-    "twitter",
+    "saml2",
     "sso",
     "single sign on",
     "registration"
   ],
   "author": {
-    "name": "Julian Lam",
-    "email": "julian@nodebb.org"
+    "name": "Raúl Yeguas",
+    "email": "raul.yeguas@geographica.gs"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/julianlam/nodebb-plugin-sso-twitter/issues"
+    "url": "https://github.com/neokore/nodebb-plugin-sso-saml2/issues"
   },
   "readme": "",
   "readmeFilename": "README.md",
   "dependencies": {
-    "passport-twitter": "~1.0.2"
+    "passport-saml": "~0.5.2"
   }
 }
